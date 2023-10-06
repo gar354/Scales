@@ -1,21 +1,22 @@
 // feel free to change these!
-int rows = 10;
-int columns = 10;
-float shapeLength = 60.0;
-float spacing = 59.0;
-float increment = .006;
+int rows = 20;
+int columns = 20;
+float minLength = 200.0;
+float maxLength = 100.0;
+float increment = .01;
 float alpha = 240.0;
 // =========================
 int xSize;
 int ySize;
-float currentshapeLength;
+float time = 0.0;
 int timeOffset = 0;
 color shapeColor = color(0, 0, 0);
 color targetColor = color(0, 0, 0);
 int offset = 0;
-
+float currentLength = minLength;
+float lengthDiv = currentLength / 2;
 void setup() {
-  offset = (int)spacing / 2;
+  offset = (int)minLength / 2;
   xSize = offset * columns;
   ySize = offset * rows;
   surface.setSize(xSize, ySize);
@@ -24,11 +25,16 @@ void setup() {
 
 void draw() {
   background(255);
+  lengthDiv = currentLength / 2;
   for (int y = 0; y < rows; y++) {
     int flippedY = rows - y - 1;
     for (int x = 0; x < columns; x++) {
-      scale(x * offset + offset / 2, flippedY * offset + offset / 2);
+      scale(x * lengthDiv, flippedY * lengthDiv);
     }
+    time += increment;
+    float weight = ((cos(time) + 1) / 2);
+    alpha = ceil(lerp(255.0, 0.0, weight));
+    currentLength = ceil(lerp(minLength, maxLength, weight));
   }
   incrementColor();
   if (millis() - timeOffset > 1000) { // change color every second
@@ -38,14 +44,9 @@ void draw() {
 }
 
 void scale(float x, float y) {
-  fill(shapeColor, alpha);
-  // draw diamond shape
-  beginShape();
-  vertex(x, y - offset);
-  vertex(x - offset, y - offset);
-  vertex(x, y + offset);
-  vertex(x + offset, y - offset);
-  endShape();
+  fill(shapeColor, alpha);  
+  ellipse(x, y + lengthDiv, currentLength, currentLength);
+  rect(x - lengthDiv * 0.5, y - lengthDiv * 0.5, lengthDiv, lengthDiv);
 }
 
 void mousePressed() {
