@@ -1,10 +1,9 @@
 // feel free to change these!
-int rows = 20;
-int columns = 20;
-float minLength = 200.0;
-float maxLength = 100.0;
-float increment = .01;
-float alpha = 240.0;
+int rows = 10;
+int columns = 10;
+float minLength = 100.0;
+float maxLength = 50.0;
+float increment = .005;
 // =========================
 int xSize;
 int ySize;
@@ -15,6 +14,8 @@ color targetColor = color(0, 0, 0);
 int offset = 0;
 float currentLength = minLength;
 float lengthDiv = currentLength / 2;
+float alpha = 255.0;
+
 void setup() {
   offset = (int)minLength / 2;
   xSize = offset * columns;
@@ -25,10 +26,10 @@ void setup() {
 
 void draw() {
   background(255);
-  lengthDiv = currentLength / 2;
-  for (int y = 0; y < rows; y++) {
+  lengthDiv = currentLength / 2; //divide current length by 2
+  for (int y = 0; y < rows; y++) { // rows
     int flippedY = rows - y - 1;
-    for (int x = 0; x < columns; x++) {
+    for (int x = 0; x < columns; x++) { // columns
       scale(x * lengthDiv, flippedY * lengthDiv);
     }
     time += increment;
@@ -45,8 +46,8 @@ void draw() {
 
 void scale(float x, float y) {
   fill(shapeColor, alpha);  
-  ellipse(x, y + lengthDiv, currentLength, currentLength);
-  rect(x - lengthDiv * 0.5, y - lengthDiv * 0.5, lengthDiv, lengthDiv);
+  ellipse(x, y, currentLength, currentLength);
+  rect(x - lengthDiv, y - lengthDiv * 0.5, currentLength, lengthDiv);
 }
 
 void mousePressed() {
