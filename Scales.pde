@@ -1,10 +1,10 @@
 // feel free to change these!
 int rows = 10;
 int columns = 10;
-float minLength = 100.0;
-float maxLength = 50.0;
 float increment = .005;
 // =========================
+float minLength;
+float maxLength;
 int xSize;
 int ySize;
 float time = 0.0;
@@ -17,10 +17,16 @@ float lengthDiv = currentLength / 2;
 float alpha = 255.0;
 
 void setup() {
+  size(600, 600);
+  if (columns >= rows) {
+    minLength = width / columns;
+  } else {
+    minLength = height / rows;
+  }
+  maxLength = minLength * 2;
   offset = (int)minLength / 2;
-  xSize = offset * columns;
-  ySize = offset * rows;
-  surface.setSize(xSize, ySize);
+  xSize = width;
+  ySize = height;
   setColor();
 }
 
@@ -47,7 +53,7 @@ void draw() {
 void scale(float x, float y) {
   fill(shapeColor, alpha);  
   ellipse(x, y, currentLength, currentLength);
-  rect(x - lengthDiv, y - lengthDiv * 0.5, currentLength, lengthDiv);
+  rect(x - lengthDiv, y - lengthDiv / 2, currentLength, lengthDiv);
 }
 
 void mousePressed() {
