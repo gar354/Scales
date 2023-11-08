@@ -5,8 +5,6 @@ float increment = .005;
 // =========================
 float minLength;
 float maxLength;
-int xSize;
-int ySize;
 float time = 0.0;
 int timeOffset = 0;
 color shapeColor = color(0, 0, 0);
@@ -25,8 +23,6 @@ void setup() {
   }
   maxLength = minLength * 2;
   offset = (int)minLength / 2;
-  xSize = width;
-  ySize = height;
   setColor();
 }
 
